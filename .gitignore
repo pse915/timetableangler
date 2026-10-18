@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_cache/
+.env
+.streamlit/secrets.toml
+frontend/node_modules/
+frontend/.angular/
+# Angular compiled dist must be checked in only after CI passes.

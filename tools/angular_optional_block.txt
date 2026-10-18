@@ -1,0 +1,24 @@
+# Optional read-only Angular navigation/schedule preview. Disabled unless explicitly enabled.
+# Import is deliberately deferred until after authentication and authorization.
+if os.environ.get("TIMETABLE_ANGULAR_PREVIEW", "0") == "1":
+    try:
+        from angular_preview import render_angular_preview
+        _angular_requested_tab = render_angular_preview(
+            session_state=st.session_state,
+            allowed_tabs=visible_tabs,
+            user_label=str(current_name() or current_user()),
+            role_label=str(current_role()),
+            timetable=st.session_state.get("timetable"),
+        )
+        if _angular_requested_tab and _angular_requested_tab != st.session_state.get("active_tab"):
+            _angular_category = "🏫 교무" if _angular_requested_tab in OFFICE_TABS else "📚 수업"
+            st.session_state.app_category = _angular_category
+            st.session_state.active_tab = _angular_requested_tab
+            st.session_state[f"app_sub_nav_{_angular_category}"] = NAV_LABELS.get(
+                _angular_requested_tab, _angular_requested_tab
+            )
+            _clear_weekly_selection()
+    except Exception as _angular_exc:
+        logging.exception("Optional Angular preview failed; native Streamlit UI remains available")
+        st.caption("Angular 미리보기 로딩에 실패했습니다. 기존 업무 화면은 정상적으로 유지됩니다.")
+

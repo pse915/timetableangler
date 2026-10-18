@@ -1,0 +1,2 @@
+Original uploaded snapshot SHA256: 4f86cfe49f6758e6ed9307c0d895f3caef07dd309006f913a7b1c0e8036fdf7e
+Source: user Library timetable_app2.py (retrieved 2026-10-18). May differ from live GitHub main.
